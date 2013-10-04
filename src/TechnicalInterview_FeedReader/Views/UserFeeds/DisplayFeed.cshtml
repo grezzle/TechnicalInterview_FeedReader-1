@@ -1,0 +1,50 @@
+﻿@model TechnicalInterview_FeedReader.Models.tbl_UserFeeds
+
+@{
+    ViewBag.Title = "DisplayFeed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Html.ActionLink("<< Back to List", "Index")
+
+<!-- Below Code displays the default or rss feed items entered in the textbox with description -->
+@if (Model.Feed != null)
+{
+    <div id="subscribeFeed">
+        <img src="~/Images/searchIcon.png" class="searchImg" />
+        <input type="text" id="search" value="" placeholder="Search Feed Items" />
+        <h3>Feed Title:</h3>
+        @Model.Feed.Title.Text
+    </div>
+    <div id="subscribeFeed">
+        <h4>Feed Description:</h4>
+        @Model.Feed.Description.Text
+    </div>
+    <table id="rounded-corner">
+        @foreach (var post in Model.Feed.Items.ToList())
+        {
+            string image = System.Text.RegularExpressions.Regex.Match(post.Summary.Text, @"<img\s+src='(.+)'\s+border='0'\s+/>").Groups[0].Value;
+            if (image.Length > 0)
+            {
+            @image;
+            }
+            <tr>
+                <td>
+                    <div style="float: left; width: 60%">
+                        <b>Title : <a href="@post.Links.First().Uri" target="_blank">@post.Title.Text</a></b>
+                    </div>
+                    <div style="float: right; width: 40%">
+                        <b>Published on: @post.PublishDate.LocalDateTime</b>
+                    </div>
+                    <div>
+                        @Html.Raw(@post.Summary.Text)
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/filterTableJquery")
+}

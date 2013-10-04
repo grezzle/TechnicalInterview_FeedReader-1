@@ -1,0 +1,44 @@
+﻿@model TechnicalInterview_FeedReader.Models.tbl_UserFeeds
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    
+
+    <fieldset>
+        <legend>tbl_UserFeeds</legend>
+
+        <div class="editor-label">
+            <h2>Enter URL for News Feed</h2>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.feedname)            
+        </div>
+
+        <div>
+            @Html.Hidden("username", User.Identity.Name.ToString())
+        </div>
+
+
+        <div>
+            <input type="submit" value="Subscribe" id="btnStyle" />
+        </div>
+    </fieldset>
+    
+    @Html.ValidationMessageFor(model => model.feedname)
+    <p class="error">@ViewBag.Exist </p>
+    @Html.ValidationSummary(true)
+}
+<br /><br />
+<div>
+    @Html.ActionLink("<< Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

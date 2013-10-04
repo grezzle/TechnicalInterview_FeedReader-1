@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TechnicalInterview_FeedReader.Models.tbl_UserFeeds>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="subscribeFeed">
+    <img src="~/Images/rssIcon.png" />
+    @Html.ActionLink("Subscribe to a News Feed", "Create")
+    <img src="~/Images/searchIcon.png" class="searchImg" />
+    <input type="text" id="search" value="" placeholder="Search Feed Links" />
+</div>
+
+<table id="rounded-corner">
+    <thead>
+        <tr>
+            <th>RSS Link
+            </th>
+            <th>Unsubscribe
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(@Html.Encode(item.feedname), "DisplayFeed", new { feedLink = item.feedname })
+                </td>
+                <td align="center">
+                    @Html.ActionLink(" ", "Delete", new { id = item.Id }, new { @class = "unsubscribe" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/filterTableJquery")
+}

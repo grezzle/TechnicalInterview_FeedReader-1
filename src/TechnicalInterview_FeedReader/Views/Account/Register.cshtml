@@ -2,36 +2,42 @@
 @{
     ViewBag.Title = "Register";
 }
-
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
+<section id="titleBg">
+    <div class="title">Feed<span class="textcolor">Reader</span></div>
+    <div class="gradline"></div>
+</section>
+<section id="loginForm">
+    <div class="loginBtns" >
+        <a href="~/Account/Login" class="inactive"> Log in </a>
+        <a href="#" class="active"> Register </a>
+    </div>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
+    
 
     <fieldset>
-        <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
-        </ol>
+        <legend>Register Form</legend>
+        <table class="logintable">
+            <tr>
+                <td style="width:25%;">@Html.LabelFor(m => m.UserName)</td>
+                <td>@Html.TextBoxFor(m => m.UserName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Password)</td>
+                <td>@Html.PasswordFor(m => m.Password)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.ConfirmPassword)</td>
+                <td>@Html.PasswordFor(m => m.ConfirmPassword)</td>
+            </tr>
+        </table>
         <input type="submit" value="Register" />
     </fieldset>
+    <br /><br />
+    @Html.ValidationSummary()
 }
-
+ </section>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

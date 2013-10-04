@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region using
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
@@ -10,6 +11,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using TechnicalInterview_FeedReader.Filters;
 using TechnicalInterview_FeedReader.Models;
+#endregion
 
 namespace TechnicalInterview_FeedReader.Controllers
 {
@@ -17,6 +19,10 @@ namespace TechnicalInterview_FeedReader.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        #region Login
+        ///<summary>
+        ///Responsible to provide the login view
+        /// </summary>
         //
         // GET: /Account/Login
 
@@ -26,6 +32,7 @@ namespace TechnicalInterview_FeedReader.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+        
 
         //
         // POST: /Account/Login
@@ -37,14 +44,19 @@ namespace TechnicalInterview_FeedReader.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                return RedirectToLocal(returnUrl);
+                return RedirectToAction("Index", "UserFeeds");
             }
 
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
             return View(model);
         }
+        #endregion
 
+        #region Logoff
+        ///<summary>
+        ///Responsible for the logoff action
+        /// </summary>
         //
         // POST: /Account/LogOff
 
@@ -54,9 +66,14 @@ namespace TechnicalInterview_FeedReader.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
+        #endregion
 
+        #region Register
+        ///<summary>
+        ///Responsible to provide the register view
+        /// </summary>
         //
         // GET: /Account/Register
 
@@ -81,7 +98,7 @@ namespace TechnicalInterview_FeedReader.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "UserFeeds");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -92,7 +109,12 @@ namespace TechnicalInterview_FeedReader.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
+        #region Disassociate
+        ///<summary>
+        ///Responsible to provide the disassociation action
+        /// </summary>
         //
         // POST: /Account/Disassociate
 
@@ -121,7 +143,12 @@ namespace TechnicalInterview_FeedReader.Controllers
 
             return RedirectToAction("Manage", new { Message = message });
         }
+        #endregion
 
+        #region ManageAccount
+        ///<summary>
+        ///Responsible to provide the manage user account action like changing password
+        /// </summary>
         //
         // GET: /Account/Manage
 
@@ -199,7 +226,12 @@ namespace TechnicalInterview_FeedReader.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
+        #region ExternalLogin
+        ///<summary>
+        ///Responsible to provide the external login action
+        /// </summary>
         //
         // POST: /Account/ExternalLogin
 
@@ -327,7 +359,8 @@ namespace TechnicalInterview_FeedReader.Controllers
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
         }
-
+        #endregion
+        
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
         {
@@ -337,7 +370,7 @@ namespace TechnicalInterview_FeedReader.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "UserFeeds");
             }
         }
 

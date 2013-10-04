@@ -1,0 +1,25 @@
+﻿@model TechnicalInterview_FeedReader.Models.tbl_UserFeeds
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Are you sure you want to Unsubscribe the following Feed?</h3><br />
+<fieldset>
+    
+
+    <div class="display-label">
+         <b>Feed Name</b>
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.feedname)
+    </div>
+
+    
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Unsubscribe" id="btnStyle" /> |
+        @Html.ActionLink("<< Back to List", "Index")
+    </p>
+}

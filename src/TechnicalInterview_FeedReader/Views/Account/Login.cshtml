@@ -3,46 +3,45 @@
 @{
     ViewBag.Title = "Log in";
 }
-
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
-
-<section id="loginForm">
-<h2>Use a local account to log in.</h2>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-            </li>
-        </ol>
-        <input type="submit" value="Log in" />
-    </fieldset>
-    <p>
-        @Html.ActionLink("Register", "Register") if you don't have an account.
-    </p>
-}
+<section id="titleBg">
+    <div class="title">Feed<span class="textcolor">Reader</span></div>
+    <div class="gradline"></div>
 </section>
+<section id="loginForm">
+    <div class="loginBtns">
+        <a href="#" class="active">Log in </a>
+        <a href="~/Account/Register" class="inactive">Register </a>
+    </div>
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+   
 
-<section class="social" id="socialLoginForm">
-    <h2>Use another service to log in.</h2>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+        <fieldset>
+            <legend>Log in Form</legend>
+            <table class="logintable">
+                <tr>
+                    <td>@Html.LabelFor(m => m.UserName)</td>
+                    <td>@Html.TextBoxFor(m => m.UserName)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(m => m.Password)</td>
+                    <td>@Html.PasswordFor(m => m.Password)</td>
+                </tr>
+                <tr>
+                    <td>@Html.CheckBoxFor(m => m.RememberMe)</td>
+                    <td>@Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })</td>
+                </tr>
+            </table>
+            <input type="submit" value="Log in" />
+        </fieldset>
+        <br />
+        <br />
+        <br />    
+        @Html.ValidationMessageFor(m => m.UserName)
+        @Html.ValidationMessageFor(m => m.Password)
+        @Html.ValidationSummary(true)
+    }
 </section>
 
 @section Scripts {
